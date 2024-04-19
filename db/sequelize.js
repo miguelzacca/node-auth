@@ -11,4 +11,8 @@ const sequelize = new Sequelize("database", dbUser, dbPasswd, {
   dialect: "mysql",
 });
 
+sequelize.authenticate().catch((err) => {
+  console.error(err);
+});
+
 export default sequelize;

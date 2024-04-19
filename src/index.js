@@ -86,7 +86,7 @@ app.post("/auth/register", async (req, res) => {
     if (err[1]) {
       return res.status(400).json({ msg: err[0] });
     }
-    console.log(err);
+    console.error(err);
     res
       .status(500)
       .json({ msg: "A server error occurred, please try again later." });
@@ -120,7 +120,7 @@ app.post("/auth/login", async (req, res) => {
 
     res.status(200).json({ msg: "Authentication success", token });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res
       .status(500)
       .json({ msg: "A server error occurred, please try again later." });
