@@ -37,7 +37,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
 
   const user = await User.findOne({
     where: { id: id },
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ["passwd", "createdAt", "updatedAt"] },
   });
 
   if (!user) {
@@ -94,7 +94,7 @@ app.post("/auth/register", async (req, res) => {
 });
 
 app.post("/auth/login", async (req, res) => {
-  const { email, passwd } = req.body;
+  const { name, email, passwd } = req.body;
 
   const user = await User.findOne({ where: { email: email } });
 
