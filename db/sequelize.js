@@ -3,11 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const dbName = process.env.DB_NAME;
 const dbUser = process.env.DB_USER;
 const dbPasswd = process.env.DB_PASS;
 
-const sequelize = new Sequelize("servido2", dbUser, dbPasswd, {
-  host: "127.0.0.1",
+const sequelize = new Sequelize(dbName, dbUser, dbPasswd, {
+  host: process.env.HOST,
   dialect: "mysql",
 });
 
