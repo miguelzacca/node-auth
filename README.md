@@ -7,7 +7,7 @@ Simple authentication with Nodejs, MySQL, Sequelize, and JWT.
 Dependencies:
 
 - `sequelize`
-- `mysql3`
+- `mysql2`
 - `zod`
 - `bcrypt`
 - `express`
