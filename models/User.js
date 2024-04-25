@@ -19,6 +19,11 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    cpf: {
+      type: DataTypes.STRING(11),
+      allowNull: false,
+      unique: true,
+    },
     passwd: {
       type: DataTypes.STRING,
       allowNull: false,

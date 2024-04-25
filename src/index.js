@@ -38,7 +38,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
 
   const user = await User.findOne({
     where: { id: id },
-    attributes: { exclude: ["passwd", "createdAt", "updatedAt"] },
+    attributes: { exclude: ["passwd", "cpf"] },
   });
 
   if (!user) {
@@ -51,6 +51,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
 const userDataSchema = z.object({
   name: z.string().min(3).max(100),
   email: z.string().email().max(150),
+  cpf: z.string().min(11).max(11),
   passwd: z.string().min(6).max(16),
 });
 
@@ -65,7 +66,7 @@ const validateData = (data) => {
 
 app.post("/auth/register", async (req, res) => {
   try {
-    const { name, email, passwd } = validateData(req.body);
+    const { name, email, cpf, passwd } = validateData(req.body);
 
     const userExists = await User.findOne({ where: { email: email } });
 
@@ -79,6 +80,7 @@ app.post("/auth/register", async (req, res) => {
     await User.create({
       name,
       email,
+      cpf,
       passwd: passwdHash,
     });
 
