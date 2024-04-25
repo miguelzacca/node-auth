@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+:root {
+  --blue: #33f;
+  --gradient: linear-gradient(to right, #44f, #22f);
+}
+
+.flex {
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.col {
+  flex-direction: column;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: var(--gradient);
+}
+
+main {
+  padding: 2rem;
+  width: 24rem;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+main .container {
+  gap: 1.5rem;
+}
+
+main .form-header {
+  width: 100%;
+  gap: 1.5rem;
+}
+
+main .show-area {
+  width: 100%;
+  border: 0.12rem solid #00000025;
+  height: 3rem;
+  border-radius: 1.5rem;
+}
+
+main .show-area button {
+  flex: 1;
+  font-size: 1.1rem;
+  border-radius: 1.5rem;
+  background-color: transparent;
+  border: 0;
+}
+
+main .form-container {
+  gap: 4rem;
+}
+
+main form .form-content {
+  gap: 1.3rem;
+  width: 20rem;
+}
+
+main form .form-content .input-container {
+  gap: 1.3rem;
+}
+
+main form input {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: transparent;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  border: 0.1rem solid #00000025;
+}
+
+main form button[submit-btn] {
+  width: 100%;
+  height: 3rem;
+  color: #fff;
+  font-size: 1.2rem;
+  background-image: var(--gradient);
+  border-radius: 1rem;
+  border: none;
+}
+
+main form .more-container {
+  padding: 0.75rem;
+  gap: 0.2rem;
+}
+
+main form .more-container button {
+  background-color: transparent;
+  border: none;
+  color: #22f;
+  font-size: 1rem;
+}
