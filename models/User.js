@@ -1,30 +1,32 @@
-import Sequelize from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../db/sequelize.js";
 
-const User = sequelize.define("user", {
-  id: {
-    type: Sequelize.STRING(100),
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true,
-    allowNull: false,
+const User = sequelize.define(
+  "user",
+  {
+    id: {
+      type: DataTypes.STRING(100),
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING(150),
+      allowNull: false,
+      unique: true,
+    },
+    passwd: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  name: {
-    type: Sequelize.STRING(100),
-    allowNull: false,
-  },
-  email: {
-    type: Sequelize.STRING(150),
-    allowNull: false,
-    unique: true,
-  },
-  passwd: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-});
-
-sequelize.sync().catch((err) => {
-  console.error(err);
-});
+  {
+    timestamps: false,
+  }
+);
 
 export default User;

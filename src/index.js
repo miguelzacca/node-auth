@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import sequelize from "../db/sequelize.js";
 import { z } from "zod";
 
 dotenv.config();
@@ -24,7 +25,7 @@ const checkToken = (req, res, next) => {
   }
 
   try {
-    const secret = process.env.SECRET; // Strong hash
+    const secret = process.env.SECRET;
     jwt.verify(token, secret);
     next();
   } catch (err) {
@@ -109,7 +110,7 @@ app.post("/auth/login", async (req, res) => {
   }
 
   try {
-    const secret = process.env.SECRET; // Strong hash
+    const secret = process.env.SECRET;
 
     const token = jwt.sign(
       {
@@ -127,7 +128,33 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`\nListen... :${PORT}`);
+app.delete("/user/delete/:id", checkToken, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await User.findOne({ where: { id: id } });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found." });
+    }
+
+    await user.destroy();
+
+    res.status(200).json({ msg: "User deleted successfully." });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ msg: "A server error occurred, please try again later." });
+  }
 });
+
+sequelize
+  .sync()
+  .then(() => {
+    const PORT = process.env.PORT || 8000;
+    app.listen(PORT, () => {
+      console.log(`\nListen... :${PORT}`);
+    });
+  })
+  .catch((err) => console.error(err));

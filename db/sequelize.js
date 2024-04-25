@@ -3,17 +3,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const dbName = process.env.DB_NAME;
-const dbUser = process.env.DB_USER;
-const dbPasswd = process.env.DB_PASS;
+const { HOST, DB_NAME, DB_USER, DB_PASS } = process.env;
 
-const sequelize = new Sequelize(dbName, dbUser, dbPasswd, {
-  host: process.env.HOST,
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+  host: HOST,
   dialect: "mysql",
 });
 
-sequelize.authenticate().catch((err) => {
-  console.error(err);
-});
+sequelize
+  .authenticate()
+  .then(() => console.log("Authentication success"))
+  .catch((err) => console.error(err));
 
 export default sequelize;
