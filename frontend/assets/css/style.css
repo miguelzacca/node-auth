@@ -14,7 +14,28 @@ body {
 
 :root {
   --blue: #33f;
-  --gradient: linear-gradient(to right, #44f, #22f);
+  --gradient: linear-gradient(to right, #00e, #55f);
+  --reverse-gradient: linear-gradient(to left, #00e, #55f);
+}
+
+button {
+  cursor: pointer;
+}
+
+.anime-login {
+  animation: toLogin 0.5s forwards;
+}
+
+.anime-signup {
+  animation: toSignup 0.5s forwards;
+}
+
+.btn-login {
+  animation: btnLogin 0.5s forwards;
+}
+
+.btn-signup {
+  animation: btnSignup 0.5s forwards;
 }
 
 .flex {
@@ -42,10 +63,13 @@ main {
   width: 24rem;
   background-color: #eee;
   overflow: hidden;
+  border-radius: 1.5rem;
+  border: 0.1rem solid #00000025;
+  box-shadow: 0 0 0.2rem #00000050;
 }
 
 main .container {
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 main .form-header {
@@ -57,7 +81,19 @@ main .show-area {
   width: 100%;
   border: 0.12rem solid #00000025;
   height: 3rem;
+  background-color: transparent;
   border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+main .show-area span {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  border-radius: 1.5rem;
+  background-image: var(--gradient);
 }
 
 main .show-area button {
@@ -66,6 +102,12 @@ main .show-area button {
   border-radius: 1.5rem;
   background-color: transparent;
   border: 0;
+  z-index: 3;
+  transition: all 0.3s;
+}
+
+main .show-area .first {
+  color: #fff;
 }
 
 main .form-container {
@@ -90,12 +132,12 @@ main form input {
   border: 0.1rem solid #00000025;
 }
 
-main form button[submit-btn] {
+main form button[submit-button] {
   width: 100%;
   height: 3rem;
   color: #fff;
   font-size: 1.2rem;
-  background-image: var(--gradient);
+  background-image: var(--reverse-gradient);
   border-radius: 1rem;
   border: none;
 }
@@ -110,4 +152,56 @@ main form .more-container button {
   border: none;
   color: #22f;
   font-size: 1rem;
+}
+
+@keyframes toSignup {
+  50% {
+    transform: translateX(-130%);
+  }
+
+  100% {
+    transform: translateX(-120%);
+  }
+}
+
+@keyframes toLogin {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  50% {
+    transform: translateX(-130%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes btnSignup {
+  50% {
+    transform: translateX(-100%);
+    left: 105%;
+  }
+
+  100% {
+    transform: translateX(-100%);
+    left: 100%;
+  }
+}
+
+@keyframes btnLogin {
+  0% {
+    transform: translateX(-100%);
+    left: 100%;
+  }
+
+  50% {
+    transform: translateX(0);
+    left: -5%;
+  }
+
+  100% {
+    left: 0;
+  }
 }
