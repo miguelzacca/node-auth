@@ -5,12 +5,14 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import sequelize from "../db/sequelize.js";
 import { z } from "zod";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "Welcome!" });
@@ -121,7 +123,7 @@ app.post("/auth/login", async (req, res) => {
       secret
     );
 
-    res.status(200).json({ msg: "Authentication success", token });
+    res.status(200).json({ msg: "Authentication success", token, id: user.id });
   } catch (err) {
     console.error(err);
     res

@@ -6,9 +6,11 @@
     <link rel="icon" href="./assets/img/window-icon.webp" type="image/webp" />
     <title>Signup | Login</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <script src="./js/main.js" defer></script>
+    <script src="./js/animation.js" defer></script>
+    <script src="./js/auth.js" defer></script>
   </head>
   <body>
+    <span class="msg"></span>
     <main>
       <div class="container flex col">
         <div class="form-header flex center col">
@@ -20,11 +22,21 @@
           </div>
         </div>
         <div class="form-container flex">
-          <form action="/" method="POST">
+          <form id="login-form">
             <div class="form-content flex col">
               <div class="input-container flex center col">
-                <input type="email" placeholder="Email address" required />
-                <input type="password" placeholder="Password" required />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  required
+                />
+                <input
+                  type="password"
+                  name="passwd"
+                  placeholder="Password"
+                  required
+                />
               </div>
               <button type="submit" submit-button>Login</button>
               <div class="more-container flex center">
@@ -32,20 +44,34 @@
                 <button type="button">Signup now</button>
               </div>
             </div>
+            <button type="reset" class="reset">reset</button>
           </form>
-          <form action="/" method="POST">
+          <form id="signup-form">
             <div class="form-content flex col">
               <div class="input-container flex center col">
-                <input type="email" placeholder="Email address" required />
-                <input type="password" placeholder="Password" required />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Username"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  required
+                />
+                <input type="text" name="cpf" placeholder="CPF" required />
                 <input
                   type="password"
-                  placeholder="Comfirm password"
+                  name="passwd"
+                  placeholder="Password"
                   required
                 />
               </div>
-              <button type="submit" submit-button>Login</button>
+              <button type="submit" submit-button>Signup</button>
             </div>
+            <button type="reset" class="reset">reset</button>
           </form>
         </div>
       </div>

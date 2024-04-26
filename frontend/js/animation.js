@@ -3,7 +3,7 @@ const loginButton = document.querySelector(".show-area button");
 const signupButton = document.querySelector(".show-area button ~ button");
 const btnBefore = document.querySelector(".show-area span");
 
-const signup = () => {
+const signupAnime = () => {
   formContainer.classList.add("anime-signup");
   formContainer.classList.remove("anime-login");
 
@@ -28,11 +28,11 @@ loginButton.addEventListener("click", () => {
 });
 
 signupButton.addEventListener("click", () => {
-  signup();
+  signupAnime();
 });
 
 document
   .querySelector(".more-container button")
   .addEventListener("click", () => {
-    signup();
+    signupAnime();
   });

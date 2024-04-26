@@ -12,6 +12,10 @@ body {
   height: 100vh;
 }
 
+html {
+  overflow: hidden;
+}
+
 :root {
   --blue: #33f;
   --gradient: linear-gradient(to right, #00e, #55f);
@@ -56,6 +60,40 @@ body {
   justify-content: center;
   align-items: center;
   background-image: var(--gradient);
+}
+
+.anime-msg {
+  animation: msg 2s forwards;
+}
+
+form .reset {
+  display: none;
+}
+
+.msg {
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border: 0.1rem solid #00000025;
+  border-radius: 1.5rem 0 1.5rem 1.5rem;
+  box-shadow: 0 0 0.2rem #00000050;
+  position: absolute;
+  opacity: 0;
+  transform: translateX(100%);
+  right: 2rem;
+  top: 2rem;
+}
+
+@keyframes msg {
+  5%,
+  95% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 }
 
 main {
