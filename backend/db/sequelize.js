@@ -12,7 +12,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 
 sequelize
   .authenticate()
-  .then(() => console.log("Authentication success"))
+  .then(() => console.log("Authentication success."))
   .catch((err) => console.error(err));
 
 export default sequelize;

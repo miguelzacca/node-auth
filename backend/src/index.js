@@ -123,7 +123,7 @@ app.post("/auth/login", async (req, res) => {
       secret
     );
 
-    res.status(200).json({ msg: "Authentication success", token, id: user.id });
+    res.status(200).json({ msg: "Authentication success.", token, id: user.id });
   } catch (err) {
     console.error(err);
     res

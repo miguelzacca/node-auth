@@ -1,44 +1,21 @@
-const connected = () => {
-  const cookies = document.cookie?.split(";");
-
-  let token = null;
-  let id = null;
-
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split("=").map((cookie) => cookie.trim());
-    if (name === "auth_token") {
-      token = value;
-    } else if (name === "auth_id") {
-      id = value;
-    }
-  }
-
-  if (token && id) {
-    fetch(`http://127.0.0.1:8000/user/${id}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.error(err));
-  }
-};
-
 const setCookie = (name, value, expiration) => {
   const expires = new Date(Date.now() + expiration).toUTCString();
-  const path = `path=/; domain=definitivelogin.netlify.app`;
-  document.cookie = `${name}=${value}; expires=${expires}; ${path}; secure; HttpOnly`;
+  const path = `path=/;`;
+  document.cookie = `${name}=${value}; expires=${expires}; ${path};`;
 };
 
 const sendMsg = (msg) => {
+  if (typeof msg === "object") {
+    const path = msg.issues[0].path[0];
+    const message = msg.issues[0].message;
+    msg = `${path}: ${message}`;
+  }
+
   document.querySelector(".msg").textContent = msg;
   document.querySelector(".msg").classList.add("anime-msg");
   setTimeout(() => {
     document.querySelector(".msg").classList.remove("anime-msg");
-  }, 2000);
+  }, 3000);
 };
 
 const handleResponse = (res) => {
@@ -46,21 +23,23 @@ const handleResponse = (res) => {
     .json()
     .then((res) => {
       setCookie("auth_token", res.token, 259200000);
-      setCookie("auth_id", res.id, 259200000);
+      setCookie("user_id", res.id, 259200000);
       sendMsg(res.msg);
     })
     .catch((err) => console.error(err));
 };
 
-const login = () => {
-  const formData = new FormData(document.querySelector("#login-form"));
-
+const formDataToJson = (data) => {
   const formDataObj = {};
-  for (const [key, value] of formData) {
+  for (const [key, value] of data) {
     formDataObj[key] = value;
   }
+  return JSON.stringify(formDataObj);
+};
 
-  const jsonData = JSON.stringify(formDataObj);
+const login = () => {
+  const formData = new FormData(document.querySelector("#login-form"));
+  const jsonData = formDataToJson(formData);
 
   fetch("http://127.0.0.1:8000/auth/login", {
     method: "POST",
@@ -71,19 +50,18 @@ const login = () => {
   })
     .then((res) => {
       handleResponse(res);
+      if (res.ok) {
+        setTimeout(() => {
+          location.href = "../index.html";
+        }, 2000);
+      }
     })
     .catch((err) => console.error(err));
 };
 
 const signup = () => {
   const formData = new FormData(document.querySelector("#signup-form"));
-
-  const formDataObj = {};
-  for (const [key, value] of formData) {
-    formDataObj[key] = value;
-  }
-
-  const jsonData = JSON.stringify(formDataObj);
+  const jsonData = formDataToJson(formData);
 
   fetch("http://127.0.0.1:8000/auth/register", {
     method: "POST",
