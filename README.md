@@ -8,6 +8,7 @@ Dependencies:
 
 - `sequelize`
 - `mysql2`
+- `cors`
 - `zod`
 - `bcrypt`
 - `express`
