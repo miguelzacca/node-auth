@@ -6,7 +6,7 @@ main .container {
   justify-content: center;
   align-items: center;
   gap: 3rem;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   padding: 2rem 3rem;
 }
 
@@ -24,14 +24,20 @@ main .container div {
 
 main .container div button {
   padding: 1rem 2rem;
-  background-color: #22f;
+  background-color: #00d;
   min-width: max-content;
   font-size: 1rem;
   color: #fff;
   border: none;
-  border-radius: 1.5rem;
+  filter: brightness(1);
+  transition: all 0.2s;
+  border-radius: 1rem;
+}
+
+main .container div button:hover {
+  filter: brightness(1.2);
 }
 
 main .container div button:last-child {
-  background-color: #f22;
+  background-color: #d00;
 }

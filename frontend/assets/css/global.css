@@ -18,8 +18,14 @@ html {
 
 :root {
   --blue: #33f;
-  --gradient: linear-gradient(to right, #00e, #55f);
-  --reverse-gradient: linear-gradient(to left, #00e, #55f);
+  --gradient: linear-gradient(to right, #003366, #004080, #0059b3, #0073e6);
+  --reverse-gradient: linear-gradient(
+    to left,
+    #003366,
+    #004080,
+    #0059b3,
+    #0073e6
+  );
 }
 
 button {

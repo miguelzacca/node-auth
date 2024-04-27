@@ -99,7 +99,7 @@ app.post("/auth/register", async (req, res) => {
 });
 
 app.post("/auth/login", async (req, res) => {
-  const { name, email, passwd } = req.body;
+  const { email, cpf, passwd } = req.body;
 
   const user = await User.findOne({ where: { email: email } });
 
@@ -108,9 +108,14 @@ app.post("/auth/login", async (req, res) => {
   }
 
   const checkPasswd = await bcrypt.compare(passwd, user.passwd);
+  const checkCpf = cpf === user.cpf;
 
   if (!checkPasswd) {
     return res.status(422).json({ msg: "Invalid password." });
+  }
+
+  if (!checkCpf) {
+    return res.status(422).json({ msg: "Invalid CPF." });
   }
 
   try {
@@ -123,7 +128,9 @@ app.post("/auth/login", async (req, res) => {
       secret
     );
 
-    res.status(200).json({ msg: "Authentication success.", token, id: user.id });
+    res
+      .status(200)
+      .json({ msg: "Authentication success.", token, id: user.id });
   } catch (err) {
     console.error(err);
     res

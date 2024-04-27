@@ -18,6 +18,14 @@
   animation: msg 3s forwards;
 }
 
+.h1-login {
+  animation: h1Login 0.5s forwards;
+}
+
+.h1-signup {
+  animation: h1Signup 0.5s forwards;
+}
+
 form .reset {
   display: none;
 }
@@ -26,7 +34,7 @@ form .reset {
   padding: 1rem 2rem;
   background-color: #fff;
   border: 0.1rem solid #00000025;
-  border-radius: 1.5rem 0 1.5rem 1.5rem;
+  border-radius: 1rem 0 1rem 1rem;
   box-shadow: 0 0 0.2rem #00000050;
   position: absolute;
   opacity: 0;
@@ -45,7 +53,7 @@ form .reset {
 
   100% {
     opacity: 0;
-    transform: translateX(100%);
+    transform: translateY(-100%);
   }
 }
 
@@ -54,7 +62,7 @@ main {
   width: 24rem;
   background-color: #eee;
   overflow: hidden;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   border: 0.1rem solid #00000025;
   box-shadow: 0 0 0.2rem #00000050;
 }
@@ -68,12 +76,42 @@ main .form-header {
   gap: 1.5rem;
 }
 
+main .form-header h1 {
+  width: 200%;
+  justify-content: space-between;
+  transform: translateX(35%);
+}
+
+@keyframes h1Signup {
+  50% {
+    transform: translateX(40%);
+  }
+
+  100% {
+    transform: translateX(-35%);
+  }
+}
+
+@keyframes h1Login {
+  0% {
+    transform: translateX(-35%);
+  }
+
+  50% {
+    transform: translateX(-40%);
+  }
+
+  100% {
+    transform: translateX(35%);
+  }
+}
+
 main .show-area {
   width: 100%;
   border: 0.12rem solid #00000025;
   height: 3rem;
   background-color: transparent;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   position: relative;
   overflow: hidden;
 }
@@ -83,18 +121,18 @@ main .show-area span {
   height: 100%;
   position: absolute;
   left: 0;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   background-image: var(--gradient);
 }
 
 main .show-area button {
   flex: 1;
   font-size: 1.1rem;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   background-color: transparent;
   border: 0;
   z-index: 3;
-  transition: all 0.3s;
+  transition: all 0.7s ease-in-out;
 }
 
 main .show-area .first {
@@ -163,17 +201,17 @@ main form .more-container button:hover {
 
 @keyframes toSignup {
   50% {
-    transform: translateX(-130%);
+    transform: translateX(10%);
   }
 
   100% {
-    transform: translateX(-120%);
+    transform: translateX(-120.5%);
   }
 }
 
 @keyframes toLogin {
   0% {
-    transform: translateX(-120%);
+    transform: translateX(-120.5%);
   }
 
   50% {
@@ -181,14 +219,14 @@ main form .more-container button:hover {
   }
 
   100% {
-    transform: translateX(0);
+    transform: translateX(-0.5%);
   }
 }
 
 @keyframes btnSignup {
   50% {
     transform: translateX(-100%);
-    left: 105%;
+    left: 47.5%;
   }
 
   100% {
@@ -205,7 +243,7 @@ main form .more-container button:hover {
 
   50% {
     transform: translateX(0);
-    left: -5%;
+    left: 52.5%;
   }
 
   100% {

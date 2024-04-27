@@ -1,5 +1,7 @@
-const setCookie = (name, value, expiration) => {
-  const expires = new Date(Date.now() + expiration).toUTCString();
+const setCookie = (name, value, expirationDays) => {
+  const expires = new Date(
+    Date.now() + expirationDays * 24 * 60 * 60 * 1000
+  ).toUTCString();
   const path = `path=/;`;
   document.cookie = `${name}=${value}; expires=${expires}; ${path};`;
 };
@@ -22,8 +24,8 @@ const handleResponse = (res) => {
   res
     .json()
     .then((res) => {
-      setCookie("auth_token", res.token, 259200000);
-      setCookie("user_id", res.id, 259200000);
+      setCookie("auth_token", res.token, 1);
+      setCookie("user_id", res.id, 1);
       sendMsg(res.msg);
     })
     .catch((err) => console.error(err));
@@ -53,7 +55,7 @@ const login = () => {
       if (res.ok) {
         setTimeout(() => {
           location.href = "../index.html";
-        }, 2000);
+        }, 1000);
       }
     })
     .catch((err) => console.error(err));
