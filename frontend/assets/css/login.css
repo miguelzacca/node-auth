@@ -205,13 +205,13 @@ main form .more-container button:hover {
   }
 
   100% {
-    transform: translateX(-120.5%);
+    transform: translateX(-121.5%);
   }
 }
 
 @keyframes toLogin {
   0% {
-    transform: translateX(-120.5%);
+    transform: translateX(-121.5%);
   }
 
   50% {

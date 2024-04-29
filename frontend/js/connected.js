@@ -9,10 +9,12 @@ const getUser = (token, id) => {
       res
         .json()
         .then((res) => {
-          if (!res.user) {
+          if (!res.user || !res.html) {
             location.href = "./pages/login.html";
           }
+          document.body.innerHTML = res.html;
           document.querySelector("main h1").textContent = res.user.name;
+          contentLoaded();
         })
         .catch((err) => console.error(err));
     })

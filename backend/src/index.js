@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import sequelize from "../db/sequelize.js";
 import { z } from "zod";
 import cors from "cors";
+import fs from "fs";
 
 dotenv.config();
 
@@ -47,7 +48,14 @@ app.get("/user/:id", checkToken, async (req, res) => {
     return res.status(404).json({ msg: "User not found." });
   }
 
-  res.status(200).json({ user });
+  const html = fs.readFileSync("./view/home.html", "utf-8", (err, data) => {
+    if (err) {
+      return console.error(err);
+    }
+    return data;
+  });
+
+  res.status(200).json({ html, user });
 });
 
 const userDataSchema = z.object({
