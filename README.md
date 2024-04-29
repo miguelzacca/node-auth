@@ -13,6 +13,7 @@ Dependencies:
 - `bcrypt`
 - `express`
 - `dotenv`
+- `fs`
 - `jsonwebtoken`
 
 ```
