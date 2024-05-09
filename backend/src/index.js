@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import sequelize from "../db/sequelize.js";
+import db from "../db/sequelize.js";
 import { z } from "zod";
 import cors from "cors";
 import fs from "fs";
@@ -24,7 +24,7 @@ const checkToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ msg: "Access denied." });
+    return res.status(403).json({ msg: "Access denied." });
   }
 
   try {
@@ -32,7 +32,7 @@ const checkToken = (req, res, next) => {
     jwt.verify(token, secret);
     next();
   } catch (err) {
-    res.status(400).json({ msg: "Invalid token." });
+    res.status(401).json({ msg: "Invalid token." });
   }
 };
 
@@ -81,7 +81,7 @@ app.post("/auth/register", async (req, res) => {
     const userExists = await User.findOne({ where: { email: email } });
 
     if (userExists) {
-      return res.status(422).json({ msg: "Please use another email." });
+      return res.status(409).json({ msg: "Please use another email." });
     }
 
     const salt = await bcrypt.genSalt(12);
@@ -168,10 +168,9 @@ app.delete("/user/delete/:id", checkToken, async (req, res) => {
   }
 });
 
-sequelize
-  .sync()
+db.sync()
   .then(() => {
-    const PORT = process.env.PORT || 8000;
+    const PORT = process.env.PORT;
     app.listen(PORT, () => {
       console.log(`\nListen... :${PORT}`);
     });

@@ -1,4 +1,4 @@
-# Auth with MySQL
+# Authentication with MySQL
 
 Simple authentication with Nodejs, MySQL, Sequelize, and JWT.
 
@@ -17,7 +17,7 @@ Dependencies:
 - `jsonwebtoken`
 
 ```
-npm install
+npm ci
 ```
 
 ## Use
@@ -34,4 +34,4 @@ npm run dev
 
 ## Preview (under development)
 
-- https://definitivelogin.netlify.app
+https://definitivelogin.netlify.app

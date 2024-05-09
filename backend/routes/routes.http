@@ -1,0 +1,48 @@
+//
+//
+//  Extension: REST Client
+//
+//
+
+GET {{baseURL}}/ HTTP/1.1
+
+###
+
+POST {{baseURL}}/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Username",
+  "email": "example@gmail.com",
+  "cpf": "31282467129",
+  "passwd": "password"
+}
+
+###
+# @name login
+
+POST {{baseURL}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "example@gmail.com",
+  "cpf": "31282467129",
+  "passwd": "password"
+}
+
+###
+
+GET {{baseURL}}/user/{{userId}} HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+###
+
+DELETE {{baseURL}}/user/delete/{{userId}} HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+###
+
+@baseURL = http://127.0.0.1:8000
+
+@authToken = {{login.response.body.token}}
+@userId = {{login.response.body.id}}
