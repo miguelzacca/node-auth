@@ -27,7 +27,7 @@ const handleResponse = (res) => {
     .then((res) => {
       setCookie("auth_token", res.token, 1);
       setCookie("user_id", res.id, 1);
-      sendMsg(res.zod);
+      sendMsg(res.msg || res.zod);
     })
     .catch((err) => console.error(err));
 };
