@@ -7,6 +7,7 @@ const setCookie = (name, value, expirationDays) => {
 };
 
 const sendMsg = (msg) => {
+  console.log(msg);
   if (typeof msg === "object") {
     const path = msg.issues[0].path[0];
     const message = msg.issues[0].message;
@@ -26,7 +27,7 @@ const handleResponse = (res) => {
     .then((res) => {
       setCookie("auth_token", res.token, 1);
       setCookie("user_id", res.id, 1);
-      sendMsg(res.msg);
+      sendMsg(res.zod);
     })
     .catch((err) => console.error(err));
 };

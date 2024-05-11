@@ -16,19 +16,19 @@ Dependencies:
 - `fs`
 - `jsonwebtoken`
 
-```
+```bash
 npm ci
 ```
 
 ## Use
 
-```
+```bash
 node src/index.js
 ```
 
 or for development (nodemon)
 
-```
+```bash
 npm run dev
 ```
 

@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
+import fs from "fs";
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import db from "../db/sequelize.js";
-import User from "../model/User.js";
+import User from "../models/User.js";
 
 dotenv.config();
 
@@ -164,7 +165,14 @@ app.get("/user/:id", checkToken, async (req, res) => {
       return res.status(404).json({ msg: "User not found." });
     }
 
-    res.status(200).json(user);
+    const html = fs.readFileSync("./view/home.html", "utf-8", (err, data) => {
+      if (err) {
+        throw err;
+      }
+      return data;
+    });
+
+    res.status(200).json({ user, html });
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: "A server occurred error. Please try later." });

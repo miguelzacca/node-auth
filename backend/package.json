@@ -17,7 +17,7 @@
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.9.6",
+    "mysql2": "^3.9.7",
     "sequelize": "^6.37.3",
     "zod": "^3.23.0"
   },
