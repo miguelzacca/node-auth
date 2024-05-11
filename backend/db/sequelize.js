@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -11,7 +11,7 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 });
 
 db.authenticate()
-  .then(() => console.log("Authentication success."))
+  .then(() => console.log("Authentication successful."))
   .catch((err) => console.error(err));
 
 export default db;
