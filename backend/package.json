@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.7",
     "sequelize": "^6.37.3",
+    "xss": "^1.0.15",
     "zod": "^3.23.0"
   },
   "devDependencies": {

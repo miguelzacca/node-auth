@@ -7,6 +7,7 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import { z } from "zod";
+import xss from "xss";
 import db from "../db/sequelize.js";
 import User from "../models/User.js";
 
@@ -14,8 +15,13 @@ dotenv.config();
 
 const app = express();
 
+const corsOptions = {
+  origin: ["https://definitivelogin.netlify.app"],
+  methods: ["GET", "POST", "DELETE"],
+};
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "Welcome!" });
@@ -29,15 +35,15 @@ const inputDataSchema = z.object({
 });
 
 /**
- * @param {object} data
+ * @param {object} input
  * @example
  * const inputValidated = validateInput(input)
  * @returns {object}
  * @throws {object}
  */
-const validateInput = (data) => {
+const validateInput = (input) => {
   try {
-    return inputDataSchema.parse(data);
+    return inputDataSchema.parse(input);
   } catch (err) {
     throw { zod: err };
   }
@@ -54,27 +60,37 @@ const findUserByField = async (field, restrict = false) => {
   const key = Object.keys(field)[0];
   const value = field[key];
 
-  if (!restrict) {
-    return await User.findOne({ where: { [key]: value } });
-  }
+  const attributes = restrict ? { exclude: ["cpf", "passwd"] } : null;
 
-  return await User.findOne({
-    where: { [key]: value },
-    attributes: { exclude: ["cpf", "passwd"] },
-  });
+  return await User.findOne({ where: { [key]: value }, attributes });
+};
+
+/**
+ * @param {object} input
+ * @example
+ * const sanitizedInput = sanitizeInput(input)
+ * @returns {object}
+ */
+const sanitizeInput = (input) => {
+  const sanitizedData = {};
+  for (const key of Object.keys(input)) {
+    sanitizedData[key] = xss(input[key]);
+  }
+  return sanitizedData;
 };
 
 app.post("/auth/register", async (req, res) => {
   try {
-    const { name, email, cpf, passwd } = validateInput(req.body);
+    const sanitizedInput = sanitizeInput(req.body);
+    const { name, email, cpf, passwd } = validateInput(sanitizedInput);
 
-    const emailExists = await findUserByField({ email });
+    const emailExists = !!(await findUserByField({ email }));
 
     if (emailExists) {
       return res.status(409).json({ msg: "This email already exists." });
     }
 
-    const cpfExists = await findUserByField({ cpf });
+    const cpfExists = !!(await findUserByField({ cpf }));
 
     if (cpfExists) {
       return res.status(409).json({ msg: "This CPF already exists." });
@@ -101,7 +117,8 @@ app.post("/auth/register", async (req, res) => {
 });
 
 app.post("/auth/login", async (req, res) => {
-  const { email, cpf, passwd } = req.body;
+  const sanitizedInput = sanitizeInput(req.body);
+  const { email, cpf, passwd } = sanitizedInput;
 
   try {
     const user = await findUserByField({ email });
@@ -185,7 +202,7 @@ app.delete("/user/delete/:id", checkToken, async (req, res) => {
   const id = req.params.id;
 
   try {
-    const user = await findUserByField({ id }, true);
+    const user = await findUserByField({ id });
 
     if (!user) {
       return res.status(404).json({ msg: "User not found." });
