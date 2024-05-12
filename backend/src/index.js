@@ -1,3 +1,5 @@
+"use strict";
+
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import dotenv from "dotenv";
