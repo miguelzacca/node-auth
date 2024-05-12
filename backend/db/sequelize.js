@@ -1,11 +1,9 @@
-"use strict"
+"use strict";
 
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import config from "../src/config.js";
 
-dotenv.config();
-
-const { HOST, DB_NAME, DB_USER, DB_PASS } = process.env;
+const { HOST, DB_NAME, DB_USER, DB_PASS } = config.env;
 
 const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   host: HOST,

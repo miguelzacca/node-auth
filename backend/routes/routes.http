@@ -1,6 +1,6 @@
 //
 //
-//  Extension: REST Client
+// Extension: REST Client
 //
 //
 
@@ -12,10 +12,10 @@ POST {{baseURL}}/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Username",
-  "email": "example@gmail.com",
-  "cpf": "31282467129",
-  "passwd": "password"
+  "name": "Miguel",
+  "email": "miguel@gmail.com",
+  "cpf": "12345678901",
+  "passwd": "miguel123"
 }
 
 ###
@@ -25,9 +25,9 @@ POST {{baseURL}}/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "example@gmail.com",
-  "cpf": "31282467129",
-  "passwd": "password"
+  "email": "miguel@gmail.com",
+  "cpf": "12345678901",
+  "passwd": "miguel123"
 }
 
 ###

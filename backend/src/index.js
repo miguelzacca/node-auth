@@ -2,7 +2,6 @@
 
 import jwt from "jsonwebtoken";
 import fs from "fs";
-import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
@@ -10,18 +9,12 @@ import { z } from "zod";
 import xss from "xss";
 import db from "../db/sequelize.js";
 import User from "../models/User.js";
-
-dotenv.config();
+import config from "./config.js";
 
 const app = express();
 
-const corsOptions = {
-  origin: ["https://definitivelogin.netlify.app"],
-  methods: ["GET", "POST", "DELETE"],
-};
-
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors(config.cors));
 
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "Welcome!" });
@@ -134,7 +127,7 @@ app.post("/auth/login", async (req, res) => {
       return res.status(422).json({ msg: "Incorrect cpf or password." });
     }
 
-    const secret = process.env.SECRET;
+    const secret = config.env.SECRET;
 
     const token = jwt.sign({ id: user.id }, secret);
 
@@ -166,7 +159,7 @@ const checkToken = (req, res, next) => {
   }
 
   try {
-    const secret = process.env.SECRET;
+    const secret = config.env.SECRET;
     jwt.verify(token, secret);
     next();
   } catch (err) {
@@ -218,7 +211,7 @@ app.delete("/user/delete/:id", checkToken, async (req, res) => {
 
 db.sync()
   .then(() => {
-    const PORT = process.env.PORT;
+    const PORT = config.env.PORT;
     app.listen(PORT, () => {
       console.log(`\nListen... :${PORT}`);
     });
