@@ -10,6 +10,7 @@ Dependencies:
 - `mysql2`
 - `cors`
 - `zod`
+- `xss`
 - `bcrypt`
 - `express`
 - `dotenv`
@@ -23,7 +24,7 @@ npm ci
 ## Use
 
 ```bash
-node src/index.js
+npm run server
 ```
 
 or for development (nodemon)
