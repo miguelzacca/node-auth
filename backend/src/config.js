@@ -18,6 +18,6 @@ export default {
 
   cors: {
     origin: ["https://definitivelogin.netlify.app"],
-    methods: ["GET", "POST", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 };
