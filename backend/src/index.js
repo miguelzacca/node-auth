@@ -21,10 +21,10 @@ app.get("/", (req, res) => {
 });
 
 const inputDataSchema = z.object({
-  name: z.string().min(3).max(100),
-  email: z.string().max(100).email(),
-  cpf: z.string().min(11).max(11),
-  passwd: z.string().min(6).max(16),
+  name: z.string().min(3).max(100).optional(),
+  email: z.string().max(100).email().optional(),
+  cpf: z.string().min(11).max(11).optional(),
+  passwd: z.string().min(6).max(16).optional(),
 });
 
 /**
@@ -77,13 +77,13 @@ app.post("/auth/register", async (req, res) => {
     const sanitizedInput = sanitizeInput(req.body);
     const { name, email, cpf, passwd } = validateInput(sanitizedInput);
 
-    const emailExists = !!(await findUserByField({ email }));
+    const emailExists = await findUserByField({ email });
 
     if (emailExists) {
       return res.status(409).json({ msg: "This email already exists." });
     }
 
-    const cpfExists = !!(await findUserByField({ cpf }));
+    const cpfExists = await findUserByField({ cpf });
 
     if (cpfExists) {
       return res.status(409).json({ msg: "This CPF already exists." });
@@ -191,6 +191,54 @@ app.get("/user/:id", checkToken, async (req, res) => {
   }
 });
 
+/**
+ * @param {Model} user
+ * @param {object} field
+ * @example
+ * updateUserField(user, { name: "example" })
+ * @returns {Promise<Model>}
+ */
+const updateUserField = async (user, field) => {
+  const key = Object.keys(field)[0];
+  const value = field[key];
+
+  if (key !== "passwd") {
+    user[key] = value;
+    return user;
+  }
+
+  const salt = await bcrypt.genSalt(12);
+  user[key] = await bcrypt.hash(value, salt);
+
+  return user;
+};
+
+app.put("/user/update/:id", checkToken, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const sanitizedInput = sanitizeInput(req.body);
+    const input = validateInput(sanitizedInput);
+
+    let user = await findUserByField({ id });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found." });
+    }
+
+    for (const key in input) {
+      user = await updateUserField(user, { [key]: input[key] });
+    }
+
+    await user.save();
+
+    res.status(200).json({ msg: "User updated successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "A server occurred error. Please try later." });
+  }
+});
+
 app.delete("/user/delete/:id", checkToken, async (req, res) => {
   const id = req.params.id;
 
@@ -202,6 +250,7 @@ app.delete("/user/delete/:id", checkToken, async (req, res) => {
     }
 
     await user.destroy();
+
     res.status(200).json({ msg: "User deleted successfully." });
   } catch (err) {
     console.error(err);

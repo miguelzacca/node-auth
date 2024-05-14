@@ -37,6 +37,16 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+PUT {{baseURL}}/user/update/{{userId}} HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "email": "example@gmail.com"
+}
+
+###
+
 DELETE {{baseURL}}/user/delete/{{userId}} HTTP/1.1
 Authorization: Bearer {{authToken}}
 
