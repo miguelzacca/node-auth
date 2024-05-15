@@ -14,13 +14,13 @@ export const register = async (req, res) => {
     const emailExists = await findUserByField({ email });
 
     if (emailExists) {
-      return res.status(409).json({ msg: config.msg.already.email });
+      return res.status(409).json({ msg: config.msg.auth.emailExists });
     }
 
     const cpfExists = await findUserByField({ cpf });
 
     if (cpfExists) {
-      return res.status(409).json({ msg: config.msg.already.cpf });
+      return res.status(409).json({ msg: config.msg.auth.cpfExists });
     }
 
     const salt = await bcrypt.genSalt(12);
@@ -44,10 +44,10 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const sanitizedInput = sanitizeInput(req.body);
-  const { email, cpf, passwd } = sanitizedInput;
-
   try {
+    const sanitizedInput = sanitizeInput(req.body);
+    const { email, cpf, passwd } = sanitizedInput;
+
     const user = await findUserByField({ email });
 
     if (!user) {
@@ -58,7 +58,7 @@ export const login = async (req, res) => {
     const checkCpf = cpf === user.cpf;
 
     if (!checkPasswd || !checkCpf) {
-      return res.status(422).json({ msg: config.msg.validation.incorrect });
+      return res.status(422).json({ msg: config.msg.auth.incorrect });
     }
 
     const secret = config.env.SECRET;

@@ -5,7 +5,7 @@ import cors from "cors";
 import config from "./config.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import db from "./db.js";
+import db from "./db/sequelize.js";
 
 const app = express();
 
@@ -18,14 +18,14 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
-  res.status(200).json({ msg: config.msg.server.welcome });
+  res.status(200).json({ msg: config.msg.server.great });
 });
 
 db.sync()
   .then(() => {
     const PORT = config.env.PORT;
     app.listen(PORT, () => {
-      console.log(`\nListen... :${PORT}`);
+      console.log(`\nRunning... :${PORT}`);
     });
   })
   .catch((err) => console.error(err));

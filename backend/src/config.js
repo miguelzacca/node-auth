@@ -24,11 +24,9 @@ export default {
   msg: {
     auth: {
       ok: "Authentication successful.",
-    },
-
-    already: {
-      email: "This email already exists.",
-      cpf: "This CPF already exists.",
+      incorrect: "Incorrect cpf or password.",
+      emailExists: "This email already exists.",
+      cpfExists: "This CPF already exists.",
     },
 
     user: {
@@ -38,16 +36,9 @@ export default {
       updated: "User updated successfully.",
     },
 
-    validation: {
-      incorrect: "Incorrect cpf or password.",
-    },
-
     server: {
-      welcome: "Welcome!",
+      great: "Welcome!",
       err: "A server occurred error. Please try later.",
-    },
-
-    access: {
       denied: "Access denied.",
       unauthorized: "Unauthorized.",
     },

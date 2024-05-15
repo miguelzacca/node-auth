@@ -18,7 +18,7 @@ export const checkToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res.status(403).json({ msg: config.msg.access.denied });
+    return res.status(403).json({ msg: config.msg.server.denied });
   }
 
   try {
@@ -26,6 +26,6 @@ export const checkToken = (req, res, next) => {
     jwt.verify(token, secret);
     next();
   } catch (err) {
-    res.status(401).json({ msg: config.msg.access.unauthorized });
+    res.status(401).json({ msg: config.msg.server.unauthorized });
   }
 };
