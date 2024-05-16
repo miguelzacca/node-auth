@@ -17,7 +17,10 @@ Dependencies:
 - `fs`
 - `jsonwebtoken`
 
+To install, run the following command:
+
 ```bash
+cd backend
 npm ci
 ```
 
