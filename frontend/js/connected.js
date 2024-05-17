@@ -14,4 +14,7 @@ fetch(`http://127.0.0.1:8000/user/`, {
       })
       .catch((err) => console.error(err));
   })
-  .catch((err) => console.error(err));
+  .catch((err) => {
+    console.error(err);
+    location.href = "./pages/login.html";
+  });
