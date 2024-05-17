@@ -37,6 +37,10 @@ or for development (nodemon)
 npm run dev
 ```
 
+## Development
+
+For development, make sure to change the `NODE_ENV` in `.env` from `production` to `development` and the origin in cors configuration in `config.js` to your localhost.
+
 ## Preview (under development)
 
 https://definitivelogin.netlify.app
