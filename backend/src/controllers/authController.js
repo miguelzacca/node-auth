@@ -4,7 +4,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import config from "../config.js";
-import { sanitizeInput, validateInput, findUserByField } from "../utils.js";
+import {
+  sanitizeInput,
+  validateInput,
+  findUserByField,
+  setCookie,
+} from "../utils.js";
 
 export const register = async (req, res) => {
   try {
@@ -65,7 +70,10 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, secret);
 
-    res.status(200).json({ msg: config.msg.auth.ok, token, id: user.id });
+    setCookie(res, { token });
+    setCookie(res, { id: user.id });
+
+    res.status(200).json({ msg: config.msg.auth.ok });
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: config.msg.server.err });

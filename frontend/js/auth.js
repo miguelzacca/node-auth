@@ -1,12 +1,10 @@
-const setCookie = (name, value, expirationDays) => {
-  const expires = new Date(
-    Date.now() + expirationDays * 24 * 60 * 60 * 1000
-  ).toUTCString();
-  const path = `path=/;`;
-  document.cookie = `${name}=${value}; expires=${expires}; ${path};`;
+const wait = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 };
 
-const sendMsg = (msg) => {
+const sendMsg = async (msg) => {
   console.log(msg);
   if (typeof msg === "object") {
     const path = msg.issues[0].path[0];
@@ -16,17 +14,14 @@ const sendMsg = (msg) => {
 
   document.querySelector(".msg").textContent = msg;
   document.querySelector(".msg").classList.add("anime-msg");
-  setTimeout(() => {
-    document.querySelector(".msg").classList.remove("anime-msg");
-  }, 3000);
+  await wait(3000);
+  document.querySelector(".msg").classList.remove("anime-msg");
 };
 
 const handleResponse = (res) => {
   res
     .json()
     .then((res) => {
-      setCookie("auth_token", res.token, 1);
-      setCookie("user_id", res.id, 1);
       sendMsg(res.msg || res.zod);
     })
     .catch((err) => console.error(err));
@@ -50,13 +45,13 @@ const login = () => {
       "Content-Type": "application/json",
     },
     body: jsonData,
+    credentials: "include",
   })
-    .then((res) => {
+    .then(async (res) => {
       handleResponse(res);
       if (res.ok) {
-        setTimeout(() => {
-          location.href = "../index.html";
-        }, 1000);
+        await wait(1000);
+        location.href = "../index.html";
       }
     })
     .catch((err) => console.error(err));

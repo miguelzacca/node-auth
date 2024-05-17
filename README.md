@@ -13,6 +13,7 @@ Dependencies:
 - `xss`
 - `bcrypt`
 - `express`
+- `cookie-parser`
 - `dotenv`
 - `fs`
 - `jsonwebtoken`

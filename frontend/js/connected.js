@@ -1,46 +1,17 @@
-const getUser = (token, id) => {
-  fetch(`http://127.0.0.1:8000/user/${id}`, {
-    method: "GET",
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
+fetch(`http://127.0.0.1:8000/user/`, {
+  credentials: "include",
+})
+  .then((res) => {
+    res
+      .json()
+      .then((res) => {
+        if (!res.user || !res.html) {
+          location.href = "./pages/login.html";
+        }
+        document.body.innerHTML = res.html;
+        document.querySelector("main h1").textContent = res.user.name;
+        contentLoaded();
+      })
+      .catch((err) => console.error(err));
   })
-    .then((res) => {
-      res
-        .json()
-        .then((res) => {
-          if (!res.user || !res.html) {
-            location.href = "./pages/login.html";
-          }
-          document.body.innerHTML = res.html;
-          document.querySelector("main h1").textContent = res.user.name;
-          contentLoaded();
-        })
-        .catch((err) => console.error(err));
-    })
-    .catch((err) => console.error(err));
-};
-
-const connected = () => {
-  const cookies = document.cookie?.split(";");
-
-  let token = null;
-  let id = null;
-
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split("=").map((cookie) => cookie.trim());
-    if (name === "auth_token") {
-      token = value;
-    } else if (name === "user_id") {
-      id = value;
-    }
-  }
-
-  if (token && id) {
-    return getUser(token, id);
-  }
-
-  location.href = "./pages/login.html";
-};
-
-connected();
+  .catch((err) => console.error(err));

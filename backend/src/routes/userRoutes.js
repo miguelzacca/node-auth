@@ -6,10 +6,10 @@ import { checkToken } from "../middleware/checkToken.js";
 
 const router = express.Router();
 
-router.get("/:id", checkToken, getUser);
+router.get("/", checkToken, getUser);
 
-router.put("/update/:id", checkToken, putUser);
+router.put("/update", checkToken, putUser);
 
-router.delete("/delete/:id", checkToken, deleteUser);
+router.delete("/delete", checkToken, deleteUser);
 
 export default router;

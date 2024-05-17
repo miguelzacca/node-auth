@@ -1,9 +1,10 @@
 "use strict";
 
 import bcrypt from "bcrypt";
-import z from "zod";
+import { z } from "zod";
 import xss from "xss";
 import User from "./models/User.js";
+import config from "./config.js";
 
 const inputDataSchema = z.object({
   name: z.string().min(3).max(100).optional(),
@@ -11,6 +12,20 @@ const inputDataSchema = z.object({
   cpf: z.string().min(11).max(11).optional(),
   passwd: z.string().min(6).max(16).optional(),
 });
+
+/**
+ * @param {object} obj
+ * @example
+ * const { key, value } = objectKey(obj)
+ * @returns {object}
+ */
+const objectKey = (obj) => {
+  const key = Object.keys(obj)[0];
+  return {
+    key,
+    value: obj[key],
+  };
+};
 
 /**
  * @param {object} input
@@ -35,8 +50,7 @@ export const validateInput = (input) => {
  * @returns {Promise<Model | null>}
  */
 export const findUserByField = async (field, restrict = false) => {
-  const key = Object.keys(field)[0];
-  const value = field[key];
+  const { key, value } = objectKey(field);
 
   const attributes = restrict ? { exclude: ["cpf", "passwd"] } : null;
 
@@ -65,8 +79,7 @@ export const sanitizeInput = (input) => {
  * @returns {Promise<Model>}
  */
 export const updateUserField = async (user, field) => {
-  const key = Object.keys(field)[0];
-  const value = field[key];
+  const { key, value } = objectKey(field);
 
   if (key !== "passwd") {
     user[key] = value;
@@ -77,4 +90,25 @@ export const updateUserField = async (user, field) => {
   user[key] = await bcrypt.hash(value, salt);
 
   return user;
+};
+
+/**
+ * @param {Response} res
+ * @param {object} value
+ * @example
+ * setCookie(res, { authToken })
+ * @returns {void}
+ */
+export const setCookie = (res, value) => {
+  const { key: cookieName, value: cookieValue } = objectKey(value);
+
+  const cookieTimeDays = 3;
+
+  const cookieConfig = {
+    httpOnly: true,
+    secure: config.env.NODE_ENV === "production",
+    maxAge: cookieTimeDays * 24 * 60 * 60 * 1000,
+  };
+
+  res.cookie(cookieName, cookieValue, cookieConfig);
 };

@@ -14,8 +14,7 @@ import config from "../config.js";
  * @returns {NextFunction | null}
  */
 export const checkToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = req.cookies?.token;
 
   if (!token) {
     return res.status(403).json({ msg: config.msg.server.denied });

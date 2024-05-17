@@ -4,10 +4,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { PORT, HOST, DB_NAME, DB_USER, DB_PASS, SECRET } = process.env;
+const { NODE_ENV, PORT, HOST, DB_NAME, DB_USER, DB_PASS, SECRET } = process.env;
 
 export default {
   env: {
+    NODE_ENV,
     PORT,
     HOST,
     DB_NAME,
@@ -18,7 +19,9 @@ export default {
 
   cors: {
     origin: ["https://definitivelogin.netlify.app"],
+    // origin: "http://127.0.0.1:5500",
     methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   },
 
   msg: {

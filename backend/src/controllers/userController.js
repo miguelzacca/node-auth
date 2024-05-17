@@ -10,7 +10,7 @@ import {
 } from "../utils.js";
 
 export const getUser = async (req, res) => {
-  const id = req.params.id;
+  const id = req.cookies.id;
 
   try {
     const user = await findUserByField({ id }, true);
@@ -38,11 +38,13 @@ export const getUser = async (req, res) => {
 };
 
 export const putUser = async (req, res) => {
-  const id = req.params.id;
+  const id = req.cookies.id;
 
   try {
     const sanitizedInput = sanitizeInput(req.body);
     const input = validateInput(sanitizedInput);
+
+    console.log(req.body);
 
     let user = await findUserByField({ id });
 
@@ -64,7 +66,7 @@ export const putUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  const id = req.params.id;
+  const id = req.cookies.id;
 
   try {
     const user = await findUserByField({ id });
@@ -74,6 +76,9 @@ export const deleteUser = async (req, res) => {
     }
 
     await user.destroy();
+
+    res.clearCookie("token");
+    res.clearCookie("id");
 
     res.status(200).json({ msg: config.msg.user.deleted });
   } catch (err) {
