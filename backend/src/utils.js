@@ -47,7 +47,7 @@ export const validateInput = (input) => {
  * @param {boolean} restrict
  * @example
  * const user = await findUserByField({ name: "example" })
- * @returns {Promise<Model | null>}
+ * @returns {Promise<Model | void>}
  */
 export const findUserByField = async (field, restrict = false) => {
   const { key, value } = objectKey(field);
@@ -90,26 +90,4 @@ export const updateUserField = async (user, field) => {
   user[key] = await bcrypt.hash(value, salt);
 
   return user;
-};
-
-/**
- * @param {Response} res
- * @param {object} value
- * @example
- * setCookie(res, { authToken })
- * @returns {void}
- */
-export const setCookie = (res, value) => {
-  const { key: cookieName, value: cookieValue } = objectKey(value);
-
-  const cookieTimeDays = 3;
-
-  const cookieConfig = {
-    httpOnly: true,
-    secure: config.env.NODE_ENV === "production",
-    maxAge: cookieTimeDays * 24 * 60 * 60 * 1000,
-    sameSite: "None",
-  };
-
-  res.cookie(cookieName, cookieValue, cookieConfig);
 };

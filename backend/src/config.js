@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { NODE_ENV, PORT, HOST, DB_NAME, DB_USER, DB_PASS, SECRET } = process.env;
+const { NODE_ENV, PORT, HOST, DB_NAME, DB_USER, DB_PASS, AUTH_DURATION_DAYS, SECRET } = process.env;
 
 export default {
   env: {
@@ -22,6 +22,13 @@ export default {
     // origin: "http://127.0.0.1:5500",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+  },
+
+  cookie: {
+    httpOnly: true,
+    secure: NODE_ENV === "production",
+    maxAge: AUTH_DURATION_DAYS * 24 * 60 * 60 * 1000,
+    sameSite: "None",
   },
 
   msg: {
