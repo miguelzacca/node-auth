@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 import xss from "xss";
 import User from "./models/User.js";
-import config from "./config.js";
 
 const inputDataSchema = z.object({
   name: z.string().min(3).max(100).optional(),
