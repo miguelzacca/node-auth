@@ -2,8 +2,10 @@
 
 import bcrypt from "bcrypt";
 import { z } from "zod";
+import jwt from "jsonwebtoken";
 import xss from "xss";
 import User from "./models/User.js";
+import config from "./config.js";
 
 const inputDataSchema = z.object({
   name: z.string().min(3).max(100).optional(),
@@ -31,7 +33,7 @@ const objectKey = (obj) => {
  * @example
  * const inputValidated = validateInput(input)
  * @returns {object}
- * @throws {object}
+ * @throws
  */
 export const validateInput = (input) => {
   try {
@@ -42,6 +44,7 @@ export const validateInput = (input) => {
 };
 
 /**
+ * @async
  * @param {object} field
  * @param {boolean} restrict
  * @example
@@ -89,4 +92,19 @@ export const updateUserField = async (user, field) => {
   user[key] = await bcrypt.hash(value, salt);
 
   return user;
+};
+
+/**
+ * @param {string} token
+ * @param {string} secret
+ * @returns {string}
+ * @throws
+ */
+export const jwtVerify = (token) => {
+  try {
+    const secret = config.env.SECRET;
+    return jwt.verify(token, secret).id;
+  } catch (err) {
+    throw err;
+  }
 };

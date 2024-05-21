@@ -1,0 +1,57 @@
+//
+//
+//  Extension: REST Client
+//
+//
+
+GET {{baseURL}}/ HTTP/1.1
+
+###
+
+POST {{baseURL}}/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Miguel",
+  "email": "miguel@gmail.com",
+  "cpf": "20202020202",
+  "passwd": "miguel123"
+}
+
+###
+# @name login
+
+POST {{baseURL}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "miguel@gmail.com",
+  "cpf": "20202020202",
+  "passwd": "miguel123"
+}
+
+###
+
+GET {{baseURL}}/user HTTP/1.1
+Cookie: {{cookie}}
+
+###
+
+PUT {{baseURL}}/user/update HTTP/1.1
+Content-Type: application/json
+Cookie: {{cookie}}
+
+{
+  "name": "Miguel Zacca"
+}
+
+###
+
+DELETE {{baseURL}}/user/delete HTTP/1.1
+Cookie: {{cookie}}
+
+###
+
+@baseURL = http://127.0.0.1:8000
+
+@cookie = {{login.response.headers.set-cookie}}

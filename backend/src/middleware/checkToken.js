@@ -1,7 +1,7 @@
 "use strict";
 
-import jwt from "jsonwebtoken";
 import config from "../config.js";
+import { jwtVerify } from "../utils.js";
 
 /**
  * @param {Request} req
@@ -21,10 +21,9 @@ export const checkToken = (req, res, next) => {
   }
 
   try {
-    const secret = config.env.SECRET;
-    jwt.verify(token, secret);
+    jwtVerify(token);
     next();
   } catch (err) {
-    res.status(401).json({ msg: config.msg.server.unauthorized });
+    res.status(401).json({ msg: config.msg.server.invalidToken });
   }
 };

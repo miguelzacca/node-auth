@@ -4,7 +4,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { NODE_ENV, PORT, HOST, DB_NAME, DB_USER, DB_PASS, AUTH_DURATION_DAYS, SECRET } = process.env;
+const {
+  NODE_ENV,
+  PORT,
+  HOST,
+  DB_NAME,
+  DB_USER,
+  DB_PASS,
+  AUTH_DURATION_DAYS,
+  SECRET,
+} = process.env;
 
 export default {
   env: {
@@ -50,7 +59,7 @@ export default {
       great: "Welcome!",
       err: "A server occurred error. Please try later.",
       denied: "Access denied.",
-      unauthorized: "Unauthorized.",
+      invalidToken: "Invalid token.",
     },
   },
 };

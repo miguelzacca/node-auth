@@ -66,7 +66,6 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user.id }, secret);
 
     res.cookie("token", token, config.cookie);
-    res.cookie("id", user.id, config.cookie);
 
     res.status(200).json({ msg: config.msg.auth.ok });
   } catch (err) {

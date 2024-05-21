@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.js",
-    "server": "node src/app.js"
+    "start": "node src/app.js"
   },
   "author": "Miguel Zacca",
   "license": "MIT",
