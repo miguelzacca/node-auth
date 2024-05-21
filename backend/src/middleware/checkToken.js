@@ -11,7 +11,7 @@ import { jwtVerify } from "../utils.js";
  * app.get("/example", checkToken, (req, res) => {
  *   ...
  * })
- * @returns {NextFunction | null}
+ * @returns {NextFunction | void}
  */
 export const checkToken = (req, res, next) => {
   const token = req.cookies?.token;

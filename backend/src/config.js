@@ -18,11 +18,12 @@ const {
 export default {
   env: {
     NODE_ENV,
-    PORT,
+    PORT: Number(PORT),
     HOST,
     DB_NAME,
     DB_USER,
     DB_PASS,
+    AUTH_DURATION_DAYS: Number(AUTH_DURATION_DAYS),
     SECRET,
   },
 
@@ -36,7 +37,7 @@ export default {
   cookie: {
     httpOnly: true,
     secure: NODE_ENV === "production",
-    maxAge: AUTH_DURATION_DAYS * 24 * 60 * 60 * 1000,
+    maxAge: Number(AUTH_DURATION_DAYS) * 24 * 60 * 60 * 1000,
     sameSite: "None",
   },
 

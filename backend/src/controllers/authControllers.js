@@ -63,7 +63,9 @@ export const login = async (req, res) => {
 
     const secret = config.env.SECRET;
 
-    const token = jwt.sign({ id: user.id }, secret);
+    const token = jwt.sign({ id: user.id }, secret, {
+      expiresIn: config.env.AUTH_DURATION_DAYS * 24 * 60 * 60,
+    });
 
     res.cookie("token", token, config.cookie);
 
