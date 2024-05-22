@@ -2,7 +2,18 @@
 
 Authentication with Nodejs, MySQL, Sequelize, and JWT.
 
+## MVC Architecture
+
+I use the MVC (Model-View-Controller) architectural pattern to organize the code in a structured and modular way. The model manages data logic, interacts with the database and defines business rules. The view handles presentation, rendering the user interface. The controller acts as an intermediary, receiving user input through routes, calling the appropriate models, and returning the correct responses to the views. This pattern helps separate responsibilities, facilitating code maintenance and scalability.
+
 ## Install
+
+To install the dependencies, run the following command:
+
+```bash
+cd backend
+npm ci
+```
 
 #### Dependencies:
 
@@ -46,22 +57,15 @@ I am using the fs (File System) module to read an HTML file that is stored in th
 
 In the project, I am using jsonwebtoken to generate, sign and verify JWT tokens (JSON Web Tokens) used to authenticate users. With this library, I can create secure tokens that contain user information, such as identification and permissions, allowing them to be easily verified and validated in each request, guaranteeing the security and integrity of the authentication system.
 
-#### Now, to install the dependencies, run the following command:
-
-```bash
-cd backend
-npm ci
-```
-
 ## Use
 
-#### To run the api normally, run the following command:
+To run the api normally, run the following command:
 
 ```bash
 npm start
 ```
 
-#### With `nodemon`, for development, run:
+With `nodemon`, for development, run:
 
 ```bash
 npm run dev
