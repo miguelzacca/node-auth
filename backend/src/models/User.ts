@@ -1,7 +1,7 @@
 "use strict";
 
 import { DataTypes } from "sequelize";
-import db from "../db/sequelize.js";
+import db from "@db/sequelize.ts";
 
 const User = db.define(
   "user",

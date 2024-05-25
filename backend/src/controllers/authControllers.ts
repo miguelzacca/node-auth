@@ -2,14 +2,17 @@
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import config from "../config.js";
-import { sanitizeInput, validateInput, findUserByField } from "../utils.js";
+import { Request, Response } from "express";
+import User from "@models/User.ts";
+import config from "@/config.ts";
+import { sanitizeInput, validateInput, findUserByField } from "@/utils.js";
+import { InputData, UserModel } from "@types";
 
-export const register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
   try {
     const sanitizedInput = sanitizeInput(req.body);
-    const { name, email, cpf, passwd } = validateInput(sanitizedInput);
+    const input: InputData = validateInput(sanitizedInput);
+    const { name, email, cpf, passwd } = input;
 
     const emailExists = await findUserByField({ email });
 
@@ -34,7 +37,7 @@ export const register = async (req, res) => {
     });
 
     res.status(201).json({ msg: config.msg.user.created });
-  } catch (err) {
+  } catch (err: any) {
     if (err.zod) {
       return res.status(422).json(err);
     }
@@ -43,12 +46,13 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const sanitizedInput = sanitizeInput(req.body);
-    const { email, cpf, passwd } = sanitizedInput;
+    const input: InputData = sanitizedInput;
+    const { email, cpf, passwd } = input;
 
-    const user = await findUserByField({ email });
+    const user: UserModel | null = await findUserByField({ email });
 
     if (!user) {
       return res.status(404).json({ msg: config.msg.user.notFound });
@@ -63,11 +67,11 @@ export const login = async (req, res) => {
 
     const secret = config.env.SECRET;
 
-    const token = jwt.sign({ id: user.id }, secret, {
+    const token = jwt.sign({ id: user.id }, <string>secret, {
       expiresIn: config.env.AUTH_DURATION_DAYS * 24 * 60 * 60,
     });
 
-    res.cookie("token", token, config.cookie);
+    res.cookie("token", token, <object>config.cookie);
 
     res.status(200).json({ msg: config.msg.auth.ok });
   } catch (err) {

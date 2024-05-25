@@ -2,10 +2,12 @@
 
 import bcrypt from "bcrypt";
 import { z } from "zod";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import xss from "xss";
-import User from "./models/User.js";
-import config from "./config.js";
+import User from "@models/User.ts";
+import config from "@/config.ts"
+import { Obj, UserModel } from "@types";
+import { FindAttributeOptions } from "sequelize";
 
 const inputDataSchema = z.object({
   name: z.string().min(3).max(100).optional(),
@@ -15,12 +17,10 @@ const inputDataSchema = z.object({
 });
 
 /**
- * @param {object} obj
  * @example
  * const { key, value } = objectKey(obj)
- * @returns {object}
  */
-const objectKey = (obj) => {
+const objectKey = (obj: Obj) => {
   const key = Object.keys(obj)[0];
   return {
     key,
@@ -29,13 +29,11 @@ const objectKey = (obj) => {
 };
 
 /**
- * @param {object} input
  * @example
  * const inputValidated = validateInput(input)
- * @returns {object}
  * @throws
  */
-export const validateInput = (input) => {
+export const validateInput = (input: object) => {
   try {
     return inputDataSchema.parse(input);
   } catch (err) {
@@ -45,28 +43,26 @@ export const validateInput = (input) => {
 
 /**
  * @async
- * @param {object} field
- * @param {boolean} restrict
  * @example
  * const user = await findUserByField({ name: "example" })
- * @returns {Promise<Model | void>}
  */
-export const findUserByField = async (field, restrict = false) => {
+export const findUserByField = async (field: Obj, restrict = false) => {
   const { key, value } = objectKey(field);
 
-  const attributes = restrict ? { exclude: ["cpf", "passwd"] } : null;
+  let attributes: FindAttributeOptions | undefined = undefined;
+  if (restrict) {
+    attributes = { exclude: ["cpf", "passwd"] };
+  }
 
   return await User.findOne({ where: { [key]: value }, attributes });
 };
 
 /**
- * @param {object} input
  * @example
  * const sanitizedInput = sanitizeInput(input)
- * @returns {object}
  */
-export const sanitizeInput = (input) => {
-  const sanitizedData = {};
+export const sanitizeInput = (input: Obj) => {
+  const sanitizedData: Obj = {};
   for (const key of Object.keys(input)) {
     sanitizedData[key] = xss(input[key]);
   }
@@ -74,13 +70,10 @@ export const sanitizeInput = (input) => {
 };
 
 /**
- * @param {Model} user
- * @param {object} field
  * @example
  * updateUserField(user, { name: "example" })
- * @returns {Promise<Model>}
  */
-export const updateUserField = async (user, field) => {
+export const updateUserField = async (user: UserModel, field: Obj) => {
   const { key, value } = objectKey(field);
 
   if (key !== "passwd") {
@@ -95,15 +88,15 @@ export const updateUserField = async (user, field) => {
 };
 
 /**
- * @param {string} token
- * @param {string} secret
- * @returns {string}
+ * @example
+ * const id = jwtVerify(token)
  * @throws
  */
-export const jwtVerify = (token) => {
+export const jwtVerify = (token: string) => {
   try {
-    const secret = config.env.SECRET;
-    return jwt.verify(token, secret).id;
+    const secret = <string>config.env.SECRET;
+    const payload = <JwtPayload>jwt.verify(token, secret);
+    return payload.id;
   } catch (err) {
     throw err;
   }

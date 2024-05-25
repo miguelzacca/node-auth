@@ -3,10 +3,10 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import config from "./config.js";
-import authRoutes from "./routes/authRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import db from "./db/sequelize.js";
+import config from "@/config.ts";
+import authRoutes from "@routes/authRoutes.ts";
+import userRoutes from "@routes/userRoutes.ts";
+import db from "@db/sequelize.ts";
 
 const app = express();
 

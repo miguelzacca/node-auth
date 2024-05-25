@@ -1,7 +1,7 @@
 "use strict";
 
 import express from "express";
-import { login, register } from "../controllers/authControllers.js";
+import { login, register } from "@controllers/authControllers.ts";
 
 const router = express.Router();
 

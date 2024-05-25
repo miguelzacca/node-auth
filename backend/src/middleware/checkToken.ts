@@ -1,19 +1,16 @@
 "use strict";
 
-import config from "../config.js";
-import { jwtVerify } from "../utils.js";
+import { NextFunction, Response, Request } from "express";
+import config from "@/config.ts";
+import { jwtVerify } from "@/utils.ts";
 
 /**
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
  * @example
  * app.get("/example", checkToken, (req, res) => {
  *   ...
  * })
- * @returns {NextFunction | void}
  */
-export const checkToken = (req, res, next) => {
+export const checkToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies?.token;
 
   if (!token) {

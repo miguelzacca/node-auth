@@ -1,7 +1,9 @@
 "use strict";
 
 import fs from "fs";
-import config from "../config.js";
+import config from "@/config.ts";
+import { Response, Request } from "express";
+import { InputData } from "@types";
 import {
   sanitizeInput,
   validateInput,
@@ -10,7 +12,7 @@ import {
   jwtVerify,
 } from "../utils.js";
 
-export const getUser = async (req, res) => {
+export const getUser = async (req: Request, res: Response) => {
   const token = req.cookies.token;
   const id = jwtVerify(token);
 
@@ -21,16 +23,7 @@ export const getUser = async (req, res) => {
       return res.status(404).json({ msg: config.msg.user.notFound });
     }
 
-    const html = fs.readFileSync(
-      "./src/views/profile.html",
-      "utf-8",
-      (err, data) => {
-        if (err) {
-          throw err;
-        }
-        return data;
-      }
-    );
+    const html = fs.readFileSync("./src/views/profile.html", "utf-8");
 
     res.status(200).json({ user, html });
   } catch (err) {
@@ -39,13 +32,13 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const putUser = async (req, res) => {
+export const putUser = async (req: Request, res: Response) => {
   const token = req.cookies.token;
   const id = jwtVerify(token);
 
   try {
     const sanitizedInput = sanitizeInput(req.body);
-    const input = validateInput(sanitizedInput);
+    const input: InputData = validateInput(sanitizedInput);
 
     console.log(req.body);
 
@@ -68,7 +61,7 @@ export const putUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = async (req: Request, res: Response) => {
   const token = req.cookies.token;
   const id = jwtVerify(token);
 
