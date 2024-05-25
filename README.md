@@ -2,9 +2,13 @@
 
 Authentication with Nodejs, MySQL, Sequelize, and JWT.
 
-## MVC Architecture
+### MVC Architecture
 
 I use the MVC (Model-View-Controller) architectural pattern to organize the code in a structured and modular way. The model manages data logic, interacts with the database and defines business rules. The view handles presentation, rendering the user interface. The controller acts as an intermediary, receiving user input through routes, calling the appropriate models, and returning the correct responses to the views. This pattern helps separate responsibilities, facilitating code maintenance and scalability.
+
+### Typescript
+
+In the project, I am using TypeScript, which is a superset of JavaScript, adding optional static typing and other features to JavaScript. With TypeScript, I can detect typos at compile time and improve code readability and maintainability, especially in large projects. Additionally, TypeScript supports modern JavaScript features such as classes, modules, and async/await, while providing a more robust and secure development experience.
 
 ## Install
 
